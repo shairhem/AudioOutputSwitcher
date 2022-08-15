@@ -15,20 +15,20 @@
 
             if (args.Length == 0)
             {
-                service.ReloadDevicesAsync().Wait();
+                service.RotateAsync().Wait();
             }
             else
             {
                 var argument = args.First();
-                if (argument == "rotate")
+                int id;
+                if (int.TryParse(argument, out id))
                 {
-                    service.RotateAsync().Wait();
-                }
+                    service.SetOuputDeviceByIdAsync(id).Wait();
+                } 
                 else
                 {
-                    var id = int.Parse(argument);
-                    service.SetOuputDeviceByIdAsync(id).Wait();
-                }     
+                    service.ReloadDevicesAsync().Wait();
+                }
             }
         }
     }
