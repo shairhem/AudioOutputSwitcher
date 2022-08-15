@@ -1,35 +1,17 @@
 ﻿namespace AudioOutputSwitcher
 {
-    using System.Linq;
-    using AudioOutputSwitcher.Repositories;
-    using AudioOutputSwitcher.Services;
+    using AudioOutputSwitcher.Strategies;
     using AudioSwitcher.AudioApi.CoreAudio;
 
     public class Program
     {
         static void Main(string[] args)
         {
+            var arg = args.Length > 0 ? args[0] : string.Empty;
             var controller = new CoreAudioController();
-            var repository = new DeviceRepository();
-            var service = new DeviceService(repository, controller);
-
-            if (args.Length == 0)
-            {
-                service.RotateAsync().Wait();
-            }
-            else
-            {
-                var argument = args.First();
-                int id;
-                if (int.TryParse(argument, out id))
-                {
-                    service.SetOuputDeviceByIdAsync(id).Wait();
-                } 
-                else
-                {
-                    service.ReloadDevicesAsync().Wait();
-                }
-            }
+            var strategyFactory = new StrategyFactory(controller);
+            var strategy = strategyFactory.GetStrategy(arg);
+            strategy.Handle(args).Wait();
         }
     }
 }

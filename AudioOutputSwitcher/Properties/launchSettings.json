@@ -2,7 +2,6 @@
   "profiles": {
     "AudioOutputSwitcher": {
       "commandName": "Project",
-      "commandLineArgs": "rotate",
       "sqlDebugging": false
     }
   }
