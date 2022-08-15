@@ -16,11 +16,19 @@
             if (args.Length == 0)
             {
                 service.ReloadDevicesAsync().Wait();
-            } 
+            }
             else
             {
-                var id = int.Parse(args.First());
-                service.SetOuputDeviceByIdAsync(id).Wait();
+                var argument = args.First();
+                if (argument == "rotate")
+                {
+                    service.RotateAsync().Wait();
+                }
+                else
+                {
+                    var id = int.Parse(argument);
+                    service.SetOuputDeviceByIdAsync(id).Wait();
+                }     
             }
         }
     }

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using AudioOutputSwitcher.Repositories;
     using AudioSwitcher.AudioApi;
@@ -45,6 +46,15 @@
             var outputDevice = await this.deviceRepository.GetDeviceAsync(id);
             var device = await this.audioController.GetDeviceAsync(outputDevice.DeviceId);
             await device.SetAsDefaultAsync();
+        }
+
+        public async Task RotateAsync()
+        {
+            var currentDevice = await this.audioController.GetDefaultDeviceAsync(DeviceType.Playback, Role.Multimedia);
+            var devices = (await this.audioController.GetPlaybackDevicesAsync(DeviceState.Active)).ToList();
+            var index = devices.FindIndex(x => x.Id == currentDevice.Id);
+            var nextIndex = ++index > devices.Count - 1 ? 0 : index;
+            await devices[nextIndex].SetAsDefaultAsync();
         }
     }
 }

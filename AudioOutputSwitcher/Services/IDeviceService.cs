@@ -7,5 +7,7 @@
         Task ReloadDevicesAsync();
 
         Task SetOuputDeviceByIdAsync(int id);
+
+        Task RotateAsync();
     }
 }
