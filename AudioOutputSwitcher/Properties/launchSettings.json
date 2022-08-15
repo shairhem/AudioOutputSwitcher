@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AudioOutputSwitcher": {
+      "commandName": "Project",
+      "sqlDebugging": false
+    }
+  }
+}
